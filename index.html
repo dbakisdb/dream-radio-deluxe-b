@@ -1,0 +1,1014 @@
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dream Radio Deluxe | Ξένη Μουσική & Διεθνή Hits</title>
+  <meta name="description" content="Ο καλύτερος ραδιόφωνικός σταθμός για ξένη μουσική και διεθνή hits">
+  <meta name="theme-color" content="#12121a">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
+  <style>
+    :root {
+      --primary: #ff4dcc;
+      --secondary: #00e5ff;
+      --accent: #ff8b3d;
+      --success: #2ed573;
+      --warning: #ffa502;
+      --error: #ff4757;
+      --bg-dark: #12121a;
+      --bg-light: #f5f7fa;
+      --text-dark: #ffffff;
+      --text-light: #2d3748;
+      --card-dark: rgba(30, 30, 50, 0.85);
+      --card-light: rgba(255, 255, 255, 0.95);
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      transition: var(--transition);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.light {
+      background: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    /* Glassmorphism Effect */
+    .glass {
+      background: var(--card-dark);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.light .glass {
+      background: var(--card-light);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Header with Animated Gradient */
+    header {
+      position: relative;
+      padding: 3rem 1rem;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(-45deg, 
+        var(--primary), 
+        var(--secondary), 
+        var(--accent), 
+        var(--primary));
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      animation: textFloat 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes textFloat {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+
+    p.subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+      font-style: italic;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Player Section */
+    .player-section {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .player-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+
+    /* Enhanced Audio Player */
+    .audio-wrapper {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--gradient);
+      padding: 3px;
+    }
+
+    audio {
+      width: 100%;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.8);
+      outline: none;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    button {
+      background: var(--gradient);
+      color: #000;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0, 195, 255, 0.3);
+      font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 195, 255, 0.4);
+    }
+
+    button:active {
+      transform: translateY(-1px);
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--secondary);
+      border: 2px solid var(--secondary);
+      box-shadow: none;
+    }
+
+    button.secondary:hover {
+      background: var(--secondary);
+      color: #000;
+    }
+
+    /* Volume Control */
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .volume-icon {
+      font-size: 1.2rem;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 8px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 4px;
+      flex-grow: 1;
+      outline: none;
+      position: relative;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--secondary);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,195,255,0.6);
+      transition: var(--transition);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(0,195,255,0.8);
+    }
+
+    /* Now Playing */
+    .now-playing {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 0, 204, 0.1);
+      border-radius: 16px;
+      border: 2px solid rgba(255, 0, 204, 0.2);
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .now-playing::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient);
+      animation: progressBar 30s linear infinite;
+    }
+
+    @keyframes progressBar {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    .now-playing.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--primary);
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Chat Section - Enhanced */
+    .chat-section {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: 100%;
+      min-height: 600px;
+    }
+
+    .chat-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+
+    .chat-container {
+      flex-grow: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 500px;
+      background: rgba(0,0,0,0.3);
+      position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .chat-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      min-height: 500px;
+      border-radius: 20px;
+    }
+
+    /* Sleep Timer Options */
+    .sleep-options {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .sleep-timer-display {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-left: 1rem;
+      font-weight: 600;
+    }
+
+    select {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: inherit;
+      font-family: inherit;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+
+    body.light select {
+      background: rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.1);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(0, 195, 255, 0.2);
+    }
+
+    /* Station Info */
+    .station-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .info-card {
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+
+    .info-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.08);
+      border-color: var(--secondary);
+    }
+
+    .info-card h3 {
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .info-card p {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* Floating Music Notes */
+    .music-note {
+      position: fixed;
+      font-size: 24px;
+      opacity: 0;
+      animation: floatNote 8s linear infinite;
+      z-index: -1;
+      pointer-events: none;
+      color: var(--primary);
+    }
+
+    @keyframes floatNote {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      background: var(--secondary);
+      color: #000;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1000;
+      max-width: 300px;
+    }
+
+    .notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .notification.error {
+      background: var(--error);
+      color: white;
+    }
+
+    .notification.success {
+      background: var(--success);
+      color: white;
+    }
+
+    /* Footer Quote */
+    .footer-quote {
+      text-align: center;
+      padding: 3rem 2rem;
+      margin-top: 3rem;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .footer-quote p {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--secondary);
+      text-shadow: 0 2px 10px rgba(0,195,255,0.3);
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* PWA Install Button */
+    .install-btn {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      z-index: 100;
+      display: none;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+        grid-template-columns: 1fr;
+      }
+      
+      .player-section, .chat-section {
+        padding: 1.5rem;
+      }
+      
+      .chat-section {
+        min-height: 400px;
+      }
+      
+      .chat-container {
+        min-height: 350px;
+      }
+      
+      .chat-container iframe {
+        min-height: 350px;
+      }
+      
+      button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.8rem;
+      }
+      
+      .controls {
+        gap: 0.5rem;
+      }
+      
+      .volume-control {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .sleep-options {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .station-info {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-quote p {
+        font-size: 1rem;
+      }
+      
+      .notification {
+        bottom: 1rem;
+        right: 1rem;
+        max-width: calc(100% - 2rem);
+      }
+    }
+
+    /* Loading animations */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .loading {
+      animation: pulse 2s infinite;
+    }
+  </style>
+</head>
+<body class="dark">
+  <!-- Animated Background Elements -->
+  <div id="musicNotes"></div>
+
+  <!-- PWA Install Button -->
+  <button id="installBtn" class="glass install-btn" style="display: none;">
+    📲 Εγκατάσταση
+  </button>
+
+  <!-- Header -->
+  <header>
+    <h1>Dream Radio Deluxe</h1>
+    <p class="subtitle">Ξένη Μουσική & Διεθνή Hits</p>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Player Section -->
+    <section class="glass player-section">
+      <h2>🔊 Ζωντανή Μετάδοση</h2>
+      
+      <div class="audio-wrapper">
+        <audio id="audioPlayer" controls>
+          <source src="https://sp3.streams.ovh/8056/stream" type="audio/mpeg">
+          Ο browser σας δεν υποστηρίζει audio player.
+        </audio>
+      </div>
+      
+      <div class="volume-control">
+        <span class="volume-icon" id="volumeIcon">🔊</span>
+        <input type="range" id="volumeSlider" min="0" max="100" value="90">
+        <span id="volumeValue">90%</span>
+      </div>
+      
+      <div class="controls">
+        <button id="playPauseBtn" onclick="togglePlayPause()">
+          <span id="playIcon">▶️</span> <span id="playText">Αναπαραγωγή</span>
+        </button>
+        
+        <button id="themeToggle" onclick="toggleTheme()">
+          <span id="themeIcon">🌙</span> Θέμα
+        </button>
+        
+        <button class="secondary" onclick="toggleSleepOptions()">
+          ⏸️ Sleep Timer
+        </button>
+        
+        <button class="secondary" onclick="shareStation()">
+          📱 Κοινοποίηση
+        </button>
+      </div>
+      
+      <div id="sleepOptions" style="display: none;">
+        <div class="sleep-options">
+          <select id="sleepTimer">
+            <option value="0">Απενεργοποίηση</option>
+            <option value="15">15 λεπτά</option>
+            <option value="30">30 λεπτά</option>
+            <option value="45">45 λεπτά</option>
+            <option value="60">1 ώρα</option>
+            <option value="90">1.5 ώρες</option>
+            <option value="120">2 ώρες</option>
+          </select>
+          <button onclick="setSleepTimer()">Ενεργοποίηση</button>
+          <span id="sleepTimerDisplay" class="sleep-timer-display"></span>
+        </div>
+      </div>
+      
+      <div class="now-playing loading" id="nowPlaying">
+        🎶 Σύνδεση με τον σταθμό...
+      </div>
+
+      <div class="station-info">
+        <div class="info-card">
+          <h3>🎵 Είδος</h3>
+          <p>Ξένη Μουσική & Διεθνή Hits</p>
+        </div>
+        <div class="info-card">
+          <h3>📻 Συχνότητα</h3>
+          <p>Online Streaming</p>
+        </div>
+        <div class="info-card">
+          <h3>🌍 Τοποθεσία</h3>
+          <p>Ρέθυμνο, Κρήτη</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chat Section - Enhanced -->
+    <section class="glass chat-section">
+      <h2>💬 Ζωντανή Συζήτηση</h2>
+      <div class="chat-container">
+        <iframe src="https://service70.rumbletalk.net/1FRIn!AH/" 
+                loading="lazy" 
+                allow="microphone"></iframe>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer Quote -->
+  <div class="footer-quote">
+    <p>"Η μουσική είναι ο καλύτερος τρόπος να ταξιδέψεις χωρίς να αφήνεις την καρέκλα σου"</p>
+  </div>
+
+  <!-- Notification -->
+  <div class="notification" id="notification"></div>
+
+  <script>
+    // DOM Elements
+    const audioPlayer = document.getElementById('audioPlayer');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeValue = document.getElementById('volumeValue');
+    const volumeIcon = document.getElementById('volumeIcon');
+    const nowPlaying = document.getElementById('nowPlaying');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const notification = document.getElementById('notification');
+    const sleepTimerDisplay = document.getElementById('sleepTimerDisplay');
+    const installBtn = document.getElementById('installBtn');
+
+    // State
+    let sleepTimer = null;
+    let sleepInterval = null;
+    let remainingTime = 0;
+    let deferredPrompt = null;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set initial volume
+      const savedVolume = localStorage.getItem('volume') || '90';
+      volumeSlider.value = savedVolume;
+      audioPlayer.volume = savedVolume / 100;
+      volumeValue.textContent = `${savedVolume}%`;
+      updateVolumeIcon(savedVolume);
+      
+      // Load saved theme
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.body.classList.add('light');
+        themeIcon.textContent = '☀️';
+      }
+      
+      // Create floating music notes
+      createMusicNotes();
+      
+      // Fetch now playing info
+      fetchNowPlaying();
+      setInterval(fetchNowPlaying, 15000);
+      
+      // Update play/pause button state
+      updatePlayPauseButton();
+      
+      // Auto-play attempt (with user gesture)
+      document.addEventListener('click', () => {
+        if (audioPlayer.paused) {
+          audioPlayer.play().catch(e => {
+            console.log('Auto-play prevented by browser policy');
+          });
+        }
+      }, { once: true });
+      
+      // PWA installation prompt
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.style.display = 'block';
+      });
+      
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            installBtn.style.display = 'none';
+          }
+          deferredPrompt = null;
+        }
+      });
+      
+      // Check if app is running as PWA
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        installBtn.style.display = 'none';
+      }
+    });
+
+    // Audio Player Events
+    audioPlayer.addEventListener('play', updatePlayPauseButton);
+    audioPlayer.addEventListener('pause', updatePlayPauseButton);
+    audioPlayer.addEventListener('loadstart', () => {
+      nowPlaying.classList.add('loading');
+    });
+    audioPlayer.addEventListener('canplay', () => {
+      nowPlaying.classList.remove('loading');
+    });
+    audioPlayer.addEventListener('error', () => {
+      nowPlaying.textContent = '⚠️ Σφάλμα σύνδεσης';
+      nowPlaying.classList.remove('loading');
+    });
+
+    // Volume Control
+    volumeSlider.addEventListener('input', () => {
+      const volume = volumeSlider.value;
+      audioPlayer.volume = volume / 100;
+      volumeValue.textContent = `${volume}%`;
+      updateVolumeIcon(volume);
+      localStorage.setItem('volume', volume);
+    });
+
+    function updateVolumeIcon(volume) {
+      if (volume == 0) {
+        volumeIcon.textContent = '🔇';
+      } else if (volume < 50) {
+        volumeIcon.textContent = '🔉';
+      } else {
+        volumeIcon.textContent = '🔊';
+      }
+    }
+
+    // Play/Pause Controls
+    function togglePlayPause() {
+      if (audioPlayer.paused) {
+        audioPlayer.play().catch(e => {
+          showNotification('⚠️ Πρόβλημα με την αναπαραγωγή', 'error');
+        });
+      } else {
+        audioPlayer.pause();
+      }
+    }
+
+    function updatePlayPauseButton() {
+      if (audioPlayer.paused) {
+        playIcon.textContent = '▶️';
+        playText.textContent = 'Αναπαραγωγή';
+      } else {
+        playIcon.textContent = '⏸️';
+        playText.textContent = 'Παύση';
+      }
+    }
+
+    // Theme Toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      const isLight = document.body.classList.contains('light');
+      themeIcon.textContent = isLight ? '☀️' : '🌙';
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      
+      showNotification(`🎨 Θέμα: ${isLight ? 'Φωτεινό' : 'Σκοτεινό'}`);
+    }
+
+    // Sleep Timer
+    function toggleSleepOptions() {
+      const options = document.getElementById('sleepOptions');
+      options.style.display = options.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function setSleepTimer() {
+      const minutes = parseInt(document.getElementById('sleepTimer').value);
+      
+      // Clear existing timer
+      if (sleepTimer) {
+        clearTimeout(sleepTimer);
+        sleepTimer = null;
+      }
+      if (sleepInterval) {
+        clearInterval(sleepInterval);
+        sleepInterval = null;
+      }
+      
+      if (minutes > 0) {
+        remainingTime = minutes * 60; // Convert to seconds
+        
+        sleepTimer = setTimeout(() => {
+          audioPlayer.pause();
+          showNotification(`🛌 Ο σταθμός απενεργοποιήθηκε μετά από ${minutes} λεπτά`, 'success');
+          sleepTimerDisplay.textContent = '';
+        }, minutes * 60000);
+        
+        // Update display every second
+        sleepInterval = setInterval(() => {
+          remainingTime--;
+          if (remainingTime <= 0) {
+            clearInterval(sleepInterval);
+            sleepTimerDisplay.textContent = '';
+            return;
+          }
+          
+          const mins = Math.floor(remainingTime / 60);
+          const secs = remainingTime % 60;
+          sleepTimerDisplay.textContent = `⏱️ ${mins}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+        
+        showNotification(`⏱️ Sleep timer: ${minutes} λεπτά`, 'success');
+      } else {
+        sleepTimerDisplay.textContent = '';
+        showNotification('⏸️ Sleep timer απενεργοποιημένος');
+      }
+      
+      toggleSleepOptions();
+    }
+
+    // Share Functionality
+    function shareStation() {
+      const shareData = {
+        title: 'Dream Radio Deluxe',
+        text: 'Ακούστε υπέροχη ξένη μουσική και διεθνή hits από το Dream Radio Deluxe!',
+        url: window.location.href
+      };
+      
+      if (navigator.share) {
+        navigator.share(shareData).catch(err => {
+          fallbackShare();
+        });
+      } else {
+        fallbackShare();
+      }
+    }
+
+    function fallbackShare() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showNotification('📋 Ο σύνδεσμος αντιγράφηκε!', 'success');
+      }).catch(() => {
+        showNotification('⚠️ Δεν μπόρεσε να αντιγραφεί', 'error');
+      });
+    }
+
+    // Now Playing Info
+    async function fetchNowPlaying() {
+      try {
+        // This is a placeholder - replace with your actual API endpoint
+        const title = "Ξένη Μουσική & Διεθνή Hits";
+        nowPlaying.innerHTML = `🎶 <strong>Τώρα παίζει:</strong> ${title}`;
+        nowPlaying.classList.remove('loading');
+      } catch (error) {
+        nowPlaying.textContent = '🎶 Σύνδεση με τον σταθμό...';
+        console.log('Error fetching now playing:', error);
+      }
+    }
+
+    // Floating Music Notes
+    function createMusicNotes() {
+      const notes = ['♪', '♫', '♬', '♩', '♭', '♮', '🎵', '🎶'];
+      const container = document.getElementById('musicNotes');
+      
+      setInterval(() => {
+        const note = document.createElement('div');
+        note.className = 'music-note';
+        note.textContent = notes[Math.floor(Math.random() * notes.length)];
+        
+        // Random position and animation duration
+        note.style.left = `${Math.random() * 100}vw`;
+        note.style.animationDuration = `${6 + Math.random() * 10}s`;
+        note.style.fontSize = `${16 + Math.random() * 24}px`;
+        
+        container.appendChild(note);
+        
+        // Remove note after animation completes
+        setTimeout(() => {
+          note.remove();
+        }, 15000);
+      }, 800);
+    }
+
+    // Notification System
+    function showNotification(message, type = '') {
+      notification.textContent = message;
+      notification.className = 'notification';
+      notification.classList.add('show');
+      if (type) notification.classList.add(type);
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Error handling for audio player
+    audioPlayer.addEventListener('error', () => {
+      showNotification('⚠️ Σφάλμα σύνδεσης με τον σταθμό', 'error');
+      nowPlaying.textContent = '⚠️ Σφάλμα σύνδεσης';
+      nowPlaying.classList.remove('loading');
+    });
+
+    // Online/Offline detection
+    window.addEventListener('online', () => {
+      showNotification('🔌 Επανασύνδεση στο δίκτυο', 'success');
+      audioPlayer.play().catch(e => console.log('Auto-play prevented'));
+    });
+
+    window.addEventListener('offline', () => {
+      showNotification('⚠️ Χαθήκατε σύνδεση', 'error');
+      audioPlayer.pause();
+    });
+
+    // Service Worker Registration for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('ServiceWorker registration successful');
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
