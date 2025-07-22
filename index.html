@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="el">
 <head>
@@ -605,23 +604,18 @@
   </style>
 </head>
 <body class="dark">
-  <!-- Animated Background Elements -->
   <div id="musicNotes"></div>
 
-  <!-- PWA Install Button -->
   <button id="installBtn" class="glass install-btn" style="display: none;">
     📲 Εγκατάσταση
   </button>
 
-  <!-- Header -->
   <header>
     <h1>Dream Radio Deluxe</h1>
     <p class="subtitle">Ξένη Μουσική & Διεθνή Hits</p>
   </header>
 
-  <!-- Main Content -->
   <div class="container">
-    <!-- Player Section -->
     <section class="glass player-section">
       <h2>🔊 Ζωντανή Μετάδοση</h2>
       
@@ -692,7 +686,6 @@
       </div>
     </section>
 
-    <!-- Chat Section - Enhanced -->
     <section class="glass chat-section">
       <h2>💬 Ζωντανή Συζήτηση</h2>
       <div class="chat-container">
@@ -703,12 +696,10 @@
     </section>
   </div>
 
-  <!-- Footer Quote -->
   <div class="footer-quote">
     <p>"Η μουσική είναι ο καλύτερος τρόπος να ταξιδέψεις χωρίς να αφήνεις την καρέκλα σου"</p>
   </div>
 
-  <!-- Notification -->
   <div class="notification" id="notification"></div>
 
   <script>
@@ -754,16 +745,18 @@
       
       // Fetch now playing info
       fetchNowPlaying();
-      setInterval(fetchNowPlaying, 15000);
+      setInterval(fetchNowPlaying, 15000); // Update every 15 seconds
       
       // Update play/pause button state
       updatePlayPauseButton();
       
       // Auto-play attempt (with user gesture)
+      // This is a common pattern to try and get around autoplay restrictions.
+      // The `once: true` ensures it only tries once on the first click.
       document.addEventListener('click', () => {
         if (audioPlayer.paused) {
           audioPlayer.play().catch(e => {
-            console.log('Auto-play prevented by browser policy');
+            console.log('Auto-play prevented by browser policy', e);
           });
         }
       }, { once: true });
@@ -797,13 +790,16 @@
     audioPlayer.addEventListener('pause', updatePlayPauseButton);
     audioPlayer.addEventListener('loadstart', () => {
       nowPlaying.classList.add('loading');
+      nowPlaying.textContent = '🎶 Σύνδεση με τον σταθμό...';
     });
     audioPlayer.addEventListener('canplay', () => {
       nowPlaying.classList.remove('loading');
+      // The now playing info will be updated by fetchNowPlaying
     });
     audioPlayer.addEventListener('error', () => {
-      nowPlaying.textContent = '⚠️ Σφάλμα σύνδεσης';
+      nowPlaying.textContent = '⚠️ Σφάλμα σύνδεσης ή αναπαραγωγής';
       nowPlaying.classList.remove('loading');
+      showNotification('⚠️ Σφάλμα σύνδεσης με τον σταθμό', 'error');
     });
 
     // Volume Control
@@ -829,7 +825,8 @@
     function togglePlayPause() {
       if (audioPlayer.paused) {
         audioPlayer.play().catch(e => {
-          showNotification('⚠️ Πρόβλημα με την αναπαραγωγή', 'error');
+          showNotification('⚠️ Πρόβλημα με την αναπαραγωγή. Ο browser ενδέχεται να απαιτεί αλληλεπίδραση.', 'error');
+          console.error('Play prevented:', e);
         });
       } else {
         audioPlayer.pause();
@@ -917,6 +914,7 @@
       
       if (navigator.share) {
         navigator.share(shareData).catch(err => {
+          console.error('Share failed:', err);
           fallbackShare();
         });
       } else {
@@ -932,16 +930,34 @@
       });
     }
 
-    // Now Playing Info
+    // Now Playing Info - INTEGRATION HERE
     async function fetchNowPlaying() {
       try {
-        // This is a placeholder - replace with your actual API endpoint
-        const title = "Ξένη Μουσική & Διεθνή Hits";
-        nowPlaying.innerHTML = `🎶 <strong>Τώρα παίζει:</strong> ${title}`;
+        const response = await fetch('https://sp3.streams.ovh/cp/get_info.php?p=8056');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        // Assuming the API returns a 'title' or 'current_song' property
+        let songTitle = 'Άγνωστο τραγούδι';
+        if (data && data.title) {
+            songTitle = data.title;
+        } else if (data && data.track && data.track.title) {
+            songTitle = data.track.title;
+        } else if (data && data.current_song) { // A common alternative
+            songTitle = data.current_song;
+        } else {
+             // Fallback to a generic message if no specific song info
+             songTitle = "Διεθνή Hits";
+        }
+
+        nowPlaying.innerHTML = `🎶 <strong>Τώρα παίζει:</strong> ${songTitle}`;
         nowPlaying.classList.remove('loading');
       } catch (error) {
         nowPlaying.textContent = '🎶 Σύνδεση με τον σταθμό...';
-        console.log('Error fetching now playing:', error);
+        nowPlaying.classList.remove('loading'); // Ensure loading animation is removed on error
+        console.error('Error fetching now playing:', error);
       }
     }
 
@@ -972,7 +988,7 @@
     // Notification System
     function showNotification(message, type = '') {
       notification.textContent = message;
-      notification.className = 'notification';
+      notification.className = 'notification'; // Reset classes
       notification.classList.add('show');
       if (type) notification.classList.add(type);
       
@@ -981,21 +997,17 @@
       }, 3000);
     }
 
-    // Error handling for audio player
-    audioPlayer.addEventListener('error', () => {
-      showNotification('⚠️ Σφάλμα σύνδεσης με τον σταθμό', 'error');
-      nowPlaying.textContent = '⚠️ Σφάλμα σύνδεσης';
-      nowPlaying.classList.remove('loading');
-    });
-
     // Online/Offline detection
     window.addEventListener('online', () => {
       showNotification('🔌 Επανασύνδεση στο δίκτυο', 'success');
-      audioPlayer.play().catch(e => console.log('Auto-play prevented'));
+      // Attempt to play only if it was previously playing
+      if (!audioPlayer.paused) {
+        audioPlayer.play().catch(e => console.log('Auto-play prevented after reconnect'));
+      }
     });
 
     window.addEventListener('offline', () => {
-      showNotification('⚠️ Χαθήκατε σύνδεση', 'error');
+      showNotification('⚠️ Χάθηκε σύνδεση', 'error');
       audioPlayer.pause();
     });
 
