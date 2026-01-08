@@ -1,1026 +1,1242 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Dream Radio Deluxe | Ξένη Μουσική & Διεθνή Hits</title>
-  <meta name="description" content="Ο καλύτερος ραδιόφωνικός σταθμός για ξένη μουσική και διεθνή hits">
-  <meta name="theme-color" content="#12121a">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
-  <style>
-    :root {
-      --primary: #ff4dcc;
-      --secondary: #00e5ff;
-      --accent: #ff8b3d;
-      --success: #2ed573;
-      --warning: #ffa502;
-      --error: #ff4757;
-      --bg-dark: #12121a;
-      --bg-light: #f5f7fa;
-      --text-dark: #ffffff;
-      --text-light: #2d3748;
-      --card-dark: rgba(30, 30, 50, 0.85);
-      --card-light: rgba(255, 255, 255, 0.95);
-      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-      --shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#020617">
+    <meta name="description" content="Dream Radio - Premium web radio από το Ρέθυμνο. Ζωντανή μουσική 24/7.">
+    <title>Dream Radio | Ρέθυμνο</title>
 
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+    <!-- Favicon / PWA -->
+    <link rel="icon" href="https://i.imgur.com/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap"
+      rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-    body {
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-      min-height: 100vh;
-      background: var(--bg-dark);
-      color: var(--text-dark);
-      transition: var(--transition);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+    <style>
+        :root {
+            --primary: #0ea5e9;          /* cyan */
+            --secondary: #6366f1;        /* indigo */
+            --accent: #fbbf24;           /* gold */
+            --dark: #020617;             /* slate-950 */
+            --darker: #020617;
+            --light: #f9fafb;            /* almost white */
+            --gray: #9ca3af;
+            --glass: rgba(15, 23, 42, 0.85);
+            --glass-border: rgba(148, 163, 184, 0.4);
+            --shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
+            --glow: 0 0 25px rgba(14, 165, 233, 0.4);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --blur: 18px;
+        }
 
-    body.light {
-      background: var(--bg-light);
-      color: var(--text-light);
-    }
+        body[data-theme="light"] {
+            --dark: #f9fafb;
+            --darker: #e5e7eb;
+            --light: #020617;
+            --primary: #0ea5e9;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --glass: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(148, 163, 184, 0.3);
+            --shadow: 0 18px 45px rgba(15, 23, 42, 0.25);
+        }
 
-    /* Glassmorphism Effect */
-    .glass {
-      background: var(--card-dark);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    body.light .glass {
-      background: var(--card-light);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    /* Header with Animated Gradient */
-    header {
-      position: relative;
-      padding: 3rem 1rem;
-      text-align: center;
-      overflow: hidden;
-      background: linear-gradient(-45deg, 
-        var(--primary), 
-        var(--secondary), 
-        var(--accent), 
-        var(--primary));
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #0f172a 0, #020617 55%, #000 100%);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    header::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.1));
-    }
+        h1, h2, h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
 
-    h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      position: relative;
-      z-index: 1;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      animation: textFloat 3s ease-in-out infinite alternate;
-    }
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.95), rgba(2, 6, 23, 0.7));
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+        }
 
-    @keyframes textFloat {
-      from { transform: translateY(0); }
-      to { transform: translateY(-10px); }
-    }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+        }
 
-    p.subtitle {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      position: relative;
-      z-index: 1;
-      font-style: italic;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--light);
+        }
 
-    /* Main Layout */
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 2rem;
-      align-items: start;
-    }
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 20%, #fbbf24, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.8), var(--glow);
+        }
 
-    @media (max-width: 1024px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-    }
+        .logo-icon i {
+            color: #020617;
+            font-size: 20px;
+        }
 
-    /* Player Section */
-    .player-section {
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+        .logo-text-main {
+            font-size: 22px;
+            font-weight: 700;
+        }
 
-    .player-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: center;
-    }
+        .logo-text-sub {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.17em;
+            color: var(--gray);
+        }
 
-    /* Enhanced Audio Player */
-    .audio-wrapper {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      background: var(--gradient);
-      padding: 3px;
-    }
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
 
-    audio {
-      width: 100%;
-      border-radius: 14px;
-      background: rgba(0,0,0,0.8);
-      outline: none;
-    }
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 3px;
+            transition: var(--transition);
+        }
 
-    /* Controls */
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
+        nav a:hover {
+            color: var(--accent);
+        }
 
-    button {
-      background: var(--gradient);
-      color: #000;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(0, 195, 255, 0.3);
-      font-size: 0.9rem;
-      position: relative;
-      overflow: hidden;
-      user-select: none;
-    }
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.25s ease-out;
+        }
 
-    button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.5s;
-    }
+        nav a:hover::after {
+            width: 100%;
+        }
 
-    button:hover::before {
-      left: 100%;
-    }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 22px;
+            cursor: pointer;
+        }
 
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 195, 255, 0.4);
-    }
+        /* Hero */
+        .hero {
+            position: relative;
+            padding: 70px 0 40px;
+        }
 
-    button:active {
-      transform: translateY(-1px);
-    }
+        .hero-inner {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+            gap: 40px;
+            align-items: center;
+        }
 
-    button.secondary {
-      background: transparent;
-      color: var(--secondary);
-      border: 2px solid var(--secondary);
-      box-shadow: none;
-    }
+        .hero-left h1 {
+            font-size: clamp(2.7rem, 4vw, 3.6rem);
+            line-height: 1.05;
+            margin-bottom: 18px;
+            background: linear-gradient(90deg, #e5e7eb, #e5e7eb 40%, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--glow);
+        }
 
-    button.secondary:hover {
-      background: var(--secondary);
-      color: #000;
-    }
+        .hero-left p {
+            color: #e5e7eb;
+            font-size: 15px;
+            max-width: 520px;
+            margin-bottom: 24px;
+        }
 
-    /* Volume Control */
-    .volume-control {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      width: 100%;
-      padding: 1rem;
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-    }
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
 
-    .volume-icon {
-      font-size: 1.2rem;
-      min-width: 30px;
-      text-align: center;
-    }
+        .badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            color: var(--gray);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    input[type="range"] {
-      -webkit-appearance: none;
-      height: 8px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 4px;
-      flex-grow: 1;
-      outline: none;
-      position: relative;
-    }
+        .badge i {
+            font-size: 10px;
+            color: var(--accent);
+        }
 
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      background: var(--secondary);
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(0,195,255,0.6);
-      transition: var(--transition);
-    }
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
 
-    input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px rgba(0,195,255,0.8);
-    }
+        .cta-btn {
+            background: radial-gradient(circle at 10% 0, #fbbf24, #0ea5e9 50%, #6366f1);
+            color: #020617;
+            padding: 12px 28px;
+            border-radius: 999px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+        }
 
-    /* Now Playing */
-    .now-playing {
-      text-align: center;
-      padding: 1.5rem;
-      background: rgba(255, 0, 204, 0.1);
-      border-radius: 16px;
-      border: 2px solid rgba(255, 0, 204, 0.2);
-      font-weight: 600;
-      position: relative;
-      overflow: hidden;
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        .cta-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+        }
 
-    .now-playing::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--gradient);
-      animation: progressBar 30s linear infinite;
-    }
+        .secondary-link {
+            color: var(--gray);
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
-    @keyframes progressBar {
-      from { width: 0%; }
-      to { width: 100%; }
-    }
+        .secondary-link i {
+            font-size: 12px;
+        }
 
-    .now-playing.loading::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--primary);
-      border-top: 2px solid transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-left: 10px;
-    }
+        .hero-right {
+            display: flex;
+            justify-content: center;
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+        .hero-card {
+            width: 100%;
+            max-width: 360px;
+            background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.95));
+            border-radius: 28px;
+            padding: 18px 18px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(148, 163, 184, 0.45);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Chat Section - Enhanced */
-    .chat-section {
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      height: 100%;
-      min-height: 600px;
-    }
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.08), transparent 55%);
+            pointer-events: none;
+        }
 
-    .chat-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-align: center;
-    }
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
 
-    .chat-container {
-      flex-grow: 1;
-      border-radius: 20px;
-      overflow: hidden;
-      min-height: 500px;
-      background: rgba(0,0,0,0.3);
-      position: relative;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
-    }
+        .hero-card-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .chat-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      min-height: 500px;
-      border-radius: 20px;
-    }
+        .station-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: #22c55e;
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+        }
 
-    /* Sleep Timer Options */
-    .sleep-options {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-    }
+        .station-label {
+            font-size: 12px;
+            color: #e5e7eb;
+        }
 
-    .sleep-timer-display {
-      font-size: 0.9rem;
-      color: var(--accent);
-      margin-left: 1rem;
-      font-weight: 600;
-    }
+        .station-label span {
+            display: block;
+            font-size: 10px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
 
-    select {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      border: 2px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      color: inherit;
-      font-family: inherit;
-      transition: var(--transition);
-      backdrop-filter: blur(10px);
-    }
+        .hero-card-header-right {
+            font-size: 11px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+        }
 
-    body.light select {
-      background: rgba(0,0,0,0.05);
-      border-color: rgba(0,0,0,0.1);
-    }
+        .hero-card-body {
+            margin-bottom: 18px;
+        }
 
-    select:focus {
-      outline: none;
-      border-color: var(--secondary);
-      box-shadow: 0 0 0 3px rgba(0, 195, 255, 0.2);
-    }
+        .now-playing-label {
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 6px;
+        }
 
-    /* Station Info */
-    .station-info {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+        .now-playing-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #f9fafb;
+            margin-bottom: 4px;
+        }
 
-    .info-card {
-      padding: 1rem;
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: var(--transition);
-    }
+        .now-playing-artist {
+            font-size: 13px;
+            color: #e5e7eb;
+            opacity: 0.9;
+        }
 
-    .info-card:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.08);
-      border-color: var(--secondary);
-    }
+        .hero-wave {
+            width: 100%;
+            height: 42px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
 
-    .info-card h3 {
-      color: var(--secondary);
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-    }
+        .hero-wave-bar {
+            width: 2px;
+            background: linear-gradient(to top, #0f172a, #22c55e, #0ea5e9);
+            border-radius: 999px;
+            animation: wave 1.1s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.05s);
+        }
 
-    .info-card p {
-      font-size: 0.8rem;
-      opacity: 0.8;
-    }
+        @keyframes wave {
+            0%, 100% { height: 10px; }
+            50% { height: 26px; }
+        }
 
-    /* Floating Music Notes */
-    .music-note {
-      position: fixed;
-      font-size: 24px;
-      opacity: 0;
-      animation: floatNote 8s linear infinite;
-      z-index: -1;
-      pointer-events: none;
-      color: var(--primary);
-    }
+        .hero-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    @keyframes floatNote {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-100px) rotate(360deg);
-        opacity: 0;
-      }
-    }
+        .hero-card-footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    /* Notification */
-    .notification {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      padding: 1rem 1.5rem;
-      background: var(--secondary);
-      color: #000;
-      border-radius: 12px;
-      font-weight: 600;
-      box-shadow: var(--shadow);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: var(--transition);
-      z-index: 1000;
-      max-width: 300px;
-    }
+        .hero-card-footer-left i {
+            color: var(--accent);
+            font-size: 14px;
+        }
 
-    .notification.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+        .hero-card-footer-left span {
+            font-size: 11px;
+            color: var(--gray);
+        }
 
-    .notification.error {
-      background: var(--error);
-      color: white;
-    }
+        /* Player Section (κάτω) */
+        .player-section {
+            padding: 30px 0 50px;
+        }
 
-    .notification.success {
-      background: var(--success);
-      color: white;
-    }
+        .player-container {
+            background: var(--glass);
+            backdrop-filter: blur(var(--blur));
+            -webkit-backdrop-filter: blur(var(--blur));
+            border-radius: 24px;
+            padding: 24px 20px 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
 
-    /* Footer Quote */
-    .footer-quote {
-      text-align: center;
-      padding: 3rem 2rem;
-      margin-top: 3rem;
-      background: rgba(255,255,255,0.02);
-      border-top: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-    }
+        .player {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
 
-    .footer-quote p {
-      font-size: 1.2rem;
-      font-style: italic;
-      color: var(--secondary);
-      text-shadow: 0 2px 10px rgba(0,195,255,0.3);
-      line-height: 1.8;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+        .player-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
 
-    /* PWA Install Button */
-    .install-btn {
-      position: fixed;
-      bottom: 1rem;
-      left: 1rem;
-      z-index: 100;
-      display: none;
-    }
+        .player-now-texts {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
 
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .container {
-        padding: 1.5rem 1rem;
-        grid-template-columns: 1fr;
-      }
-      
-      .player-section, .chat-section {
-        padding: 1.5rem;
-      }
-      
-      .chat-section {
-        min-height: 400px;
-      }
-      
-      .chat-container {
-        min-height: 350px;
-      }
-      
-      .chat-container iframe {
-        min-height: 350px;
-      }
-      
-      button {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.8rem;
-      }
-      
-      .controls {
-        gap: 0.5rem;
-      }
-      
-      .volume-control {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      .sleep-options {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      .station-info {
-        grid-template-columns: 1fr;
-      }
-      
-      .footer-quote p {
-        font-size: 1rem;
-      }
-      
-      .notification {
-        bottom: 1rem;
-        right: 1rem;
-        max-width: calc(100% - 2rem);
-      }
-    }
+        .player-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--gray);
+        }
 
-    /* Loading animations */
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
+        .player-song-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
 
-    .loading {
-      animation: pulse 2s infinite;
-    }
-  </style>
+        .player-song-artist {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .player-status-pill {
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gray);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
+        }
+
+        /* iframe player wrapper */
+        .iframe-player-wrapper {
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .iframe-player-wrapper iframe {
+            display: block;
+        }
+
+        /* Chat */
+        .chat-section {
+            padding: 40px 0 60px;
+        }
+
+        .chat-card {
+            background: var(--glass);
+            backdrop-filter: blur(var(--blur));
+            -webkit-backdrop-filter: blur(var(--blur));
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-title {
+            font-size: 16px;
+        }
+
+        .chat-subtitle {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .chat-pill {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            color: var(--gray);
+        }
+
+        .chat-embed-wrapper {
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(15, 23, 42, 0.9);
+            background: #020617;
+        }
+
+        /* Request Song */
+        .request-section {
+            padding: 10px 0 60px;
+        }
+
+        .request-container {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .request-card {
+            background: var(--glass);
+            backdrop-filter: blur(var(--blur));
+            -webkit-backdrop-filter: blur(var(--blur));
+            border-radius: 24px;
+            padding: 22px 20px 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+        }
+
+        .request-title {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 18px;
+            color: var(--light);
+        }
+
+        .request-text {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #e5e7eb;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 11px;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--light);
+            font-size: 13px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.8);
+        }
+
+        .form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 4px;
+            background: radial-gradient(circle at 10% 0, #fbbf24, #0ea5e9 50%, #6366f1);
+            border: none;
+            color: #020617;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            padding: 11px 20px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        /* Social */
+        .social-section {
+            padding: 0 0 45px;
+            text-align: center;
+        }
+
+        .social-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .social-text {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 18px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: rgba(15, 23, 42, 0.9);
+            transition: var(--transition);
+            font-size: 16px;
+        }
+
+        .social-link:hover {
+            color: #020617;
+            background: radial-gradient(circle at 20% 0, #fbbf24, #0ea5e9 60%, #6366f1);
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 18px 0 26px;
+            border-top: 1px solid rgba(148, 163, 184, 0.35);
+            background: rgba(2, 6, 23, 0.95);
+        }
+
+        .footer-logo {
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--light);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        .footer-links a {
+            font-size: 12px;
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: var(--gray);
+        }
+
+        /* Floating buttons */
+        .theme-toggle,
+        .back-to-top {
+            position: fixed;
+            bottom: 22px;
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            background: rgba(15, 23, 42, 0.95);
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 900;
+            transition: var(--transition);
+        }
+
+        .theme-toggle {
+            right: 18px;
+        }
+
+        .back-to-top {
+            left: 18px;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .theme-toggle:hover,
+        .back-to-top:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(#0ea5e9, #6366f1);
+            border-radius: 999px;
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            .hero-right {
+                order: -1;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: absolute;
+                top: 58px;
+                right: 18px;
+                background: rgba(15, 23, 42, 0.97);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                padding: 12px 16px;
+                border-radius: 16px;
+                border: 1px solid rgba(148, 163, 184, 0.5);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                display: none;
+                min-width: 180px;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .header-content {
+                padding-inline: 4px;
+            }
+
+            .hero {
+                padding-top: 40px;
+            }
+
+            .player-container {
+                padding-inline: 16px;
+            }
+
+            .chat-card, .request-card {
+                padding-inline: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-left h1 {
+                font-size: 2.2rem;
+            }
+            .hero-right {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
-<body class="dark">
-  <div id="musicNotes"></div>
-
-  <button id="installBtn" class="glass install-btn" style="display: none;">
-    📲 Εγκατάσταση
-  </button>
-
-  <header>
-    <h1>Dream Radio Deluxe</h1>
-    <p class="subtitle">Ξένη Μουσική & Διεθνή Hits</p>
-  </header>
-
-  <div class="container">
-    <section class="glass player-section">
-      <h2>🔊 Ζωντανή Μετάδοση</h2>
-      
-      <div class="audio-wrapper">
-        <audio id="audioPlayer" controls>
-          <source src="https://sp3.streams.ovh/8056/stream" type="audio/mpeg">
-          Ο browser σας δεν υποστηρίζει audio player.
-        </audio>
-      </div>
-      
-      <div class="volume-control">
-        <span class="volume-icon" id="volumeIcon">🔊</span>
-        <input type="range" id="volumeSlider" min="0" max="100" value="90">
-        <span id="volumeValue">90%</span>
-      </div>
-      
-      <div class="controls">
-        <button id="playPauseBtn" onclick="togglePlayPause()">
-          <span id="playIcon">▶️</span> <span id="playText">Αναπαραγωγή</span>
-        </button>
-        
-        <button id="themeToggle" onclick="toggleTheme()">
-          <span id="themeIcon">🌙</span> Θέμα
-        </button>
-        
-        <button class="secondary" onclick="toggleSleepOptions()">
-          ⏸️ Sleep Timer
-        </button>
-        
-        <button class="secondary" onclick="shareStation()">
-          📱 Κοινοποίηση
-        </button>
-      </div>
-      
-      <div id="sleepOptions" style="display: none;">
-        <div class="sleep-options">
-          <select id="sleepTimer">
-            <option value="0">Απενεργοποίηση</option>
-            <option value="15">15 λεπτά</option>
-            <option value="30">30 λεπτά</option>
-            <option value="45">45 λεπτά</option>
-            <option value="60">1 ώρα</option>
-            <option value="90">1.5 ώρες</option>
-            <option value="120">2 ώρες</option>
-          </select>
-          <button onclick="setSleepTimer()">Ενεργοποίηση</button>
-          <span id="sleepTimerDisplay" class="sleep-timer-display"></span>
+<body data-theme="dark">
+<header>
+    <div class="container">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-broadcast-tower"></i>
+                </div>
+                <div>
+                    <div class="logo-text-main">Dream Radio</div>
+                    <div class="logo-text-sub">Ρέθυμνο · Premium Web Radio</div>
+                </div>
+            </a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#player">Player</a></li>
+                    <li><a href="#chat">Chat</a></li>
+                    <li><a href="#request">Αίτηση</a></li>
+                    <li><a href="#contact">Επικοινωνία</a></li>
+                </ul>
+            </nav>
         </div>
-      </div>
-      
-      <div class="now-playing loading" id="nowPlaying">
-        🎶 Σύνδεση με τον σταθμό...
-      </div>
+    </div>
+</header>
 
-      <div class="station-info">
-        <div class="info-card">
-          <h3>🎵 Είδος</h3>
-          <p>Ξένη Μουσική & Διεθνή Hits</p>
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-inner">
+            <div class="hero-left">
+                <h1>Ζήσε το όνειρο<br>του ήχου.</h1>
+                <p>Dream Radio – μουσική, κουβέντα και ενέργεια 24/7 από το Ρέθυμνο. Συντονίσου τώρα σε premium ποιότητα, από κινητό, tablet ή υπολογιστή.</p>
+                <div class="hero-badges">
+                    <div class="badge"><i class="fas fa-music"></i>24/7 Μουσική</div>
+                    <div class="badge"><i class="fas fa-mobile-alt"></i>Android &amp; iOS Ready</div>
+                    <div class="badge"><i class="fas fa-shield-alt"></i>SSL Secure Stream</div>
+                </div>
+                <div class="hero-actions">
+                    <a href="#player" class="cta-btn">
+                        <i class="fas fa-play"></i> Ακούστε Τώρα
+                    </a>
+                    <a href="https://www.facebook.com/groups/245646725483069" class="secondary-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i> Μπες στην Ομάδα
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <div class="hero-card">
+                    <div class="hero-card-header">
+                        <div class="hero-card-header-left">
+                            <div class="station-dot"></div>
+                            <div class="station-label">
+                                LIVE STREAM
+                                <span>ON AIR · HD AUDIO</span>
+                            </div>
+                        </div>
+                        <div class="hero-card-header-right">
+                            DREAM · MIX
+                        </div>
+                    </div>
+
+                    <div class="hero-card-body">
+                        <div class="now-playing-label">ΤΩΡΑ ΠΑΙΖΕΙ</div>
+                        <div class="now-playing-title" id="hero-current-song">Φορτώνει...</div>
+                        <div class="now-playing-artist" id="hero-current-artist">Dream Radio</div>
+                    </div>
+
+                    <div class="hero-wave">
+                        <div class="hero-wave-bar" style="--i:0;"></div>
+                        <div class="hero-wave-bar" style="--i:1;"></div>
+                        <div class="hero-wave-bar" style="--i:2;"></div>
+                        <div class="hero-wave-bar" style="--i:3;"></div>
+                        <div class="hero-wave-bar" style="--i:4;"></div>
+                        <div class="hero-wave-bar" style="--i:5;"></div>
+                        <div class="hero-wave-bar" style="--i:6;"></div>
+                        <div class="hero-wave-bar" style="--i:7;"></div>
+                        <div class="hero-wave-bar" style="--i:8;"></div>
+                        <div class="hero-wave-bar" style="--i:9;"></div>
+                        <div class="hero-wave-bar" style="--i:10;"></div>
+                        <div class="hero-wave-bar" style="--i:11;"></div>
+                        <div class="hero-wave-bar" style="--i:12;"></div>
+                        <div class="hero-wave-bar" style="--i:13;"></div>
+                        <div class="hero-wave-bar" style="--i:14;"></div>
+                        <div class="hero-wave-bar" style="--i:15;"></div>
+                        <div class="hero-wave-bar" style="--i:16;"></div>
+                        <div class="hero-wave-bar" style="--i:17;"></div>
+                    </div>
+
+                    <div class="hero-card-footer">
+                        <div class="hero-card-footer-left">
+                            <i class="fas fa-headphones"></i>
+                            <span>Απλά πάτα play &amp; απόλαυσε.</span>
+                        </div>
+                        <div class="hero-card-footer-right">
+                            <span style="font-size:11px;color:var(--gray);">SSL STREAM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="info-card">
-          <h3>📻 Συχνότητα</h3>
-          <p>Online Streaming</p>
+    </div>
+</section>
+
+<!-- PLAYER -->
+<section class="player-section" id="player">
+    <div class="container">
+        <div class="player-container">
+            <div class="player">
+                <div class="player-top">
+                    <div class="player-now-texts">
+                        <div class="player-label">ΤΩΡΑ ΠΑΙΖΕΙ</div>
+                        <div class="player-song-title" id="current-song">Φορτώνει...</div>
+                        <div class="player-song-artist" id="current-artist">Dream Radio</div>
+                    </div>
+                    <div class="player-status-pill">
+                        <span class="status-dot"></span>
+                        <span>LIVE STREAM</span>
+                    </div>
+                </div>
+
+                <div class="iframe-player-wrapper">
+                    <iframe src="https://sp3.streams.ovh/cp/widgets/player/single/?p=8056" height="110" width="100%" scrolling="no" style="border:none;" title="Dream Radio Web Player"></iframe>
+                </div>
+
+            </div>
         </div>
-        <div class="info-card">
-          <h3>🌍 Τοποθεσία</h3>
-          <p>Ρέθυμνο, Κρήτη</p>
+    </div>
+</section>
+
+<!-- CHAT -->
+<section class="chat-section" id="chat">
+    <div class="container">
+        <div class="chat-card">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <i class="fas fa-comments" style="color:var(--accent);font-size:18px;"></i>
+                    <div>
+                        <div class="chat-title">Live Chat</div>
+                        <div class="chat-subtitle">Μοίρασε την ενέργειά σου με την παρέα του Dream Radio.</div>
+                    </div>
+                </div>
+                <div class="chat-pill">
+                    <i class="fas fa-users" style="font-size:11px;"></i> Κοινότητα
+                </div>
+            </div>
+            <div class="chat-embed-wrapper">
+                <div style="height: 480px; width: 100%;">
+                    <div id="rt-9886cc53232d6fc9ea38abefab79acad"></div>
+                    <script src="https://rumbletalk.com/client/?1FRIn!AH"></script>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <section class="glass chat-section">
-      <h2>💬 Ζωντανή Συζήτηση</h2>
-      <div class="chat-container">
-        <iframe src="https://service70.rumbletalk.net/1FRIn!AH/" 
-                loading="lazy" 
-                allow="microphone"></iframe>
-      </div>
-    </section>
-  </div>
+<!-- REQUEST SONG - ΕΝΣΩΜΑΤΩΜΕΝΟ TO FORMSPREE -->
+<section class="request-section" id="request">
+    <div class="container">
+        <div class="request-container">
+            <div class="request-card">
+                <h2 class="request-title">Αίτηση Τραγουδιού</h2>
+                <p class="request-text">Γράψε μας ποιο τραγούδι θέλεις να ακούσεις και το αφιερώνουμε ζωντανά on air.</p>
+                <!-- ✅ ΕΝΣΩΜΑΤΩΜΕΝΟ ΤΟ ΣΩΣΤΟ FORMSPREE -->
+                <form id="request-form" action="https://formspree.io/f/mdakqreq" method="POST">
+                    <div class="form-group">
+                        <label for="name">Όνομα</label>
+                        <input type="text" id="name" name="name" required placeholder="Το όνομά σου">
+                    </div>
+                    <div class="form-group">
+                        <label for="song">Τίτλος τραγουδιού</label>
+                        <input type="text" id="song" name="song" required placeholder="Π.χ. Imagine">
+                    </div>
+                    <div class="form-group">
+                        <label for="artist">Καλλιτέχνης</label>
+                        <input type="text" id="artist" name="artist" required placeholder="Π.χ. John Lennon">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Μήνυμα (προαιρετικό)</label>
+                        <textarea id="message" name="message" placeholder="Σε ποιον το αφιερώνεις;"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">ΑΠΟΣΤΟΛΗ ΑΙΤΗΣΗΣ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
-  <div class="footer-quote">
-    <p>"Η μουσική είναι ο καλύτερος τρόπος να ταξιδέψεις χωρίς να αφήνεις την καρέκλα σου"</p>
-  </div>
+<!-- SOCIAL -->
+<section class="social-section">
+    <div class="container">
+        <h2 class="social-title">Βρες μας στο Facebook</h2>
+        <p class="social-text">Γίνε μέλος της κοινότητας του Dream Radio και μάθε πρώτος για νέες εκπομπές και διαγωνισμούς.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/groups/245646725483069" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61564248503694" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="mailto:dreamradiorethimno@gmail.com" class="social-link" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+        <p style="margin-top:16px;font-size:13px;color:var(--gray);">
+            Email: <a href="mailto:dreamradiorethimno@gmail.com" style="color:var(--accent);text-decoration:none;">dreamradiorethimno@gmail.com</a>
+        </p>
+    </div>
+</section>
 
-  <div class="notification" id="notification"></div>
+<!-- FOOTER -->
+<footer id="contact">
+    <div class="container" style="text-align:center;">
+        <div class="footer-logo">
+            <i class="fas fa-broadcast-tower"></i> Dream Radio · Ρέθυμνο
+        </div>
+        <div class="footer-links">
+            <a href="#player">Player</a>
+            <a href="#chat">Chat</a>
+            <a href="#request">Αιτήσεις</a>
+            <a href="mailto:dreamradiorethimno@gmail.com">dreamradiorethimno@gmail.com</a>
+        </div>
+        <div class="footer-copy">© 2024 Dream Radio. Όλα τα δικαιώματα διατηρούνται.</div>
+    </div>
+</footer>
 
-  <script>
-    // DOM Elements
-    const audioPlayer = document.getElementById('audioPlayer');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumeValue = document.getElementById('volumeValue');
-    const volumeIcon = document.getElementById('volumeIcon');
-    const nowPlaying = document.getElementById('nowPlaying');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playIcon = document.getElementById('playIcon');
-    const playText = document.getElementById('playText');
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    const notification = document.getElementById('notification');
-    const sleepTimerDisplay = document.getElementById('sleepTimerDisplay');
-    const installBtn = document.getElementById('installBtn');
+<!-- FLOAT BUTTONS -->
+<button class="theme-toggle" id="theme-toggle" aria-label="Εναλλαγή θέματος">
+    <i class="fas fa-moon"></i>
+</button>
 
-    // State
-    let sleepTimer = null;
-    let sleepInterval = null;
-    let remainingTime = 0;
-    let deferredPrompt = null;
+<button class="back-to-top" id="back-to-top" aria-label="Επιστροφή στην αρχή">
+    <i class="fas fa-arrow-up"></i>
+</button>
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      // Set initial volume
-      const savedVolume = localStorage.getItem('volume') || '90';
-      volumeSlider.value = savedVolume;
-      audioPlayer.volume = savedVolume / 100;
-      volumeValue.textContent = `${savedVolume}%`;
-      updateVolumeIcon(savedVolume);
-      
-      // Load saved theme
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      if (savedTheme === 'light') {
-        document.body.classList.add('light');
-        themeIcon.textContent = '☀️';
-      }
-      
-      // Create floating music notes
-      createMusicNotes();
-      
-      // Fetch now playing info
-      fetchNowPlaying();
-      setInterval(fetchNowPlaying, 15000); // Update every 15 seconds
-      
-      // Update play/pause button state
-      updatePlayPauseButton();
-      
-      // Auto-play attempt (with user gesture)
-      // This is a common pattern to try and get around autoplay restrictions.
-      // The `once: true` ensures it only tries once on the first click.
-      document.addEventListener('click', () => {
-        if (audioPlayer.paused) {
-          audioPlayer.play().catch(e => {
-            console.log('Auto-play prevented by browser policy', e);
-          });
-        }
-      }, { once: true });
-      
-      // PWA installation prompt
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBtn.style.display = 'block';
-      });
-      
-      installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            installBtn.style.display = 'none';
-          }
-          deferredPrompt = null;
-        }
-      });
-      
-      // Check if app is running as PWA
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        installBtn.style.display = 'none';
-      }
-    });
-
-    // Audio Player Events
-    audioPlayer.addEventListener('play', updatePlayPauseButton);
-    audioPlayer.addEventListener('pause', updatePlayPauseButton);
-    audioPlayer.addEventListener('loadstart', () => {
-      nowPlaying.classList.add('loading');
-      nowPlaying.textContent = '🎶 Σύνδεση με τον σταθμό...';
-    });
-    audioPlayer.addEventListener('canplay', () => {
-      nowPlaying.classList.remove('loading');
-      // The now playing info will be updated by fetchNowPlaying
-    });
-    audioPlayer.addEventListener('error', () => {
-      nowPlaying.textContent = '⚠️ Σφάλμα σύνδεσης ή αναπαραγωγής';
-      nowPlaying.classList.remove('loading');
-      showNotification('⚠️ Σφάλμα σύνδεσης με τον σταθμό', 'error');
-    });
-
-    // Volume Control
-    volumeSlider.addEventListener('input', () => {
-      const volume = volumeSlider.value;
-      audioPlayer.volume = volume / 100;
-      volumeValue.textContent = `${volume}%`;
-      updateVolumeIcon(volume);
-      localStorage.setItem('volume', volume);
-    });
-
-    function updateVolumeIcon(volume) {
-      if (volume == 0) {
-        volumeIcon.textContent = '🔇';
-      } else if (volume < 50) {
-        volumeIcon.textContent = '🔉';
-      } else {
-        volumeIcon.textContent = '🔊';
-      }
-    }
-
-    // Play/Pause Controls
-    function togglePlayPause() {
-      if (audioPlayer.paused) {
-        audioPlayer.play().catch(e => {
-          showNotification('⚠️ Πρόβλημα με την αναπαραγωγή. Ο browser ενδέχεται να απαιτεί αλληλεπίδραση.', 'error');
-          console.error('Play prevented:', e);
-        });
-      } else {
-        audioPlayer.pause();
-      }
-    }
-
-    function updatePlayPauseButton() {
-      if (audioPlayer.paused) {
-        playIcon.textContent = '▶️';
-        playText.textContent = 'Αναπαραγωγή';
-      } else {
-        playIcon.textContent = '⏸️';
-        playText.textContent = 'Παύση';
-      }
-    }
-
-    // Theme Toggle
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-      const isLight = document.body.classList.contains('light');
-      themeIcon.textContent = isLight ? '☀️' : '🌙';
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      
-      showNotification(`🎨 Θέμα: ${isLight ? 'Φωτεινό' : 'Σκοτεινό'}`);
-    }
-
-    // Sleep Timer
-    function toggleSleepOptions() {
-      const options = document.getElementById('sleepOptions');
-      options.style.display = options.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function setSleepTimer() {
-      const minutes = parseInt(document.getElementById('sleepTimer').value);
-      
-      // Clear existing timer
-      if (sleepTimer) {
-        clearTimeout(sleepTimer);
-        sleepTimer = null;
-      }
-      if (sleepInterval) {
-        clearInterval(sleepInterval);
-        sleepInterval = null;
-      }
-      
-      if (minutes > 0) {
-        remainingTime = minutes * 60; // Convert to seconds
-        
-        sleepTimer = setTimeout(() => {
-          audioPlayer.pause();
-          showNotification(`🛌 Ο σταθμός απενεργοποιήθηκε μετά από ${minutes} λεπτά`, 'success');
-          sleepTimerDisplay.textContent = '';
-        }, minutes * 60000);
-        
-        // Update display every second
-        sleepInterval = setInterval(() => {
-          remainingTime--;
-          if (remainingTime <= 0) {
-            clearInterval(sleepInterval);
-            sleepTimerDisplay.textContent = '';
-            return;
-          }
-          
-          const mins = Math.floor(remainingTime / 60);
-          const secs = remainingTime % 60;
-          sleepTimerDisplay.textContent = `⏱️ ${mins}:${secs.toString().padStart(2, '0')}`;
-        }, 1000);
-        
-        showNotification(`⏱️ Sleep timer: ${minutes} λεπτά`, 'success');
-      } else {
-        sleepTimerDisplay.textContent = '';
-        showNotification('⏸️ Sleep timer απενεργοποιημένος');
-      }
-      
-      toggleSleepOptions();
-    }
-
-    // Share Functionality
-    function shareStation() {
-      const shareData = {
-        title: 'Dream Radio Deluxe',
-        text: 'Ακούστε υπέροχη ξένη μουσική και διεθνή hits από το Dream Radio Deluxe!',
-        url: window.location.href
-      };
-      
-      if (navigator.share) {
-        navigator.share(shareData).catch(err => {
-          console.error('Share failed:', err);
-          fallbackShare();
-        });
-      } else {
-        fallbackShare();
-      }
-    }
-
-    function fallbackShare() {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        showNotification('📋 Ο σύνδεσμος αντιγράφηκε!', 'success');
-      }).catch(() => {
-        showNotification('⚠️ Δεν μπόρεσε να αντιγραφεί', 'error');
-      });
-    }
-
-    // Now Playing Info - INTEGRATION HERE
-    async function fetchNowPlaying() {
-      try {
-        const response = await fetch('https://sp3.streams.ovh/cp/get_info.php?p=8056');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        
-        // Assuming the API returns a 'title' or 'current_song' property
-        let songTitle = 'Άγνωστο τραγούδι';
-        if (data && data.title) {
-            songTitle = data.title;
-        } else if (data && data.track && data.track.title) {
-            songTitle = data.track.title;
-        } else if (data && data.current_song) { // A common alternative
-            songTitle = data.current_song;
-        } else {
-             // Fallback to a generic message if no specific song info
-             songTitle = "Διεθνή Hits";
-        }
-
-        nowPlaying.innerHTML = `🎶 <strong>Τώρα παίζει:</strong> ${songTitle}`;
-        nowPlaying.classList.remove('loading');
-      } catch (error) {
-        nowPlaying.textContent = '🎶 Σύνδεση με τον σταθμό...';
-        nowPlaying.classList.remove('loading'); // Ensure loading animation is removed on error
-        console.error('Error fetching now playing:', error);
-      }
-    }
-
-    // Floating Music Notes
-    function createMusicNotes() {
-      const notes = ['♪', '♫', '♬', '♩', '♭', '♮', '🎵', '🎶'];
-      const container = document.getElementById('musicNotes');
-      
-      setInterval(() => {
-        const note = document.createElement('div');
-        note.className = 'music-note';
-        note.textContent = notes[Math.floor(Math.random() * notes.length)];
-        
-        // Random position and animation duration
-        note.style.left = `${Math.random() * 100}vw`;
-        note.style.animationDuration = `${6 + Math.random() * 10}s`;
-        note.style.fontSize = `${16 + Math.random() * 24}px`;
-        
-        container.appendChild(note);
-        
-        // Remove note after animation completes
-        setTimeout(() => {
-          note.remove();
-        }, 15000);
-      }, 800);
-    }
-
-    // Notification System
-    function showNotification(message, type = '') {
-      notification.textContent = message;
-      notification.className = 'notification'; // Reset classes
-      notification.classList.add('show');
-      if (type) notification.classList.add(type);
-      
-      setTimeout(() => {
-        notification.classList.remove('show');
-      }, 3000);
-    }
-
-    // Online/Offline detection
-    window.addEventListener('online', () => {
-      showNotification('🔌 Επανασύνδεση στο δίκτυο', 'success');
-      // Attempt to play only if it was previously playing
-      if (!audioPlayer.paused) {
-        audioPlayer.play().catch(e => console.log('Auto-play prevented after reconnect'));
-      }
-    });
-
-    window.addEventListener('offline', () => {
-      showNotification('⚠️ Χάθηκε σύνδεση', 'error');
-      audioPlayer.pause();
-    });
-
-    // Service Worker Registration for PWA
+<script>
+    // Service Worker (προαιρετικά)
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(registration => {
-          console.log('ServiceWorker registration successful');
-        }).catch(err => {
-          console.log('ServiceWorker registration failed: ', err);
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
         });
-      });
     }
-  </script>
+
+    // Κύρια στοιχεία
+    const currentSong = document.getElementById('current-song');
+    const currentArtist = document.getElementById('current-artist');
+    const heroSong = document.getElementById('hero-current-song');
+    const heroArtist = document.getElementById('hero-current-artist');
+    const backToTopBtn = document.getElementById('back-to-top');
+    const themeToggle = document.getElementById('theme-toggle');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+
+    // Metadata (χρησιμοποιώντας το endpoint της Streams.ovh)
+    async function fetchMetadata() {
+        try {
+            const res = await fetch('https://sp3.streams.ovh/cp/get_info.php?p=8056');
+            const data = await res.json();
+
+            if (!data || !data.songtitle) {
+                throw new Error('No songtitle or data in response');
+            }
+
+            let fullTitle = data.songtitle;
+            let currentTrack = 'Ζωντανή Μετάδοση';
+            let currentArtist = 'Dream Radio';
+
+            // Καθαρισμός HTML entities
+            fullTitle = fullTitle.replace(/&#039;/g, "'").replace(/&amp;/g, '&');
+
+            // Προσπαθούμε να διαχωρίσουμε "Καλλιτέχνης - Τίτλος"
+            const parts = fullTitle.split(' - ');
+            if (parts.length >= 2 && parts[0].trim() !== "" && parts[1].trim() !== "") {
+                currentArtist = parts[0].trim();
+                currentTrack = parts.slice(1).join(' - ').trim();
+            } else {
+                currentTrack = fullTitle.trim();
+                currentArtist = 'Dream Radio';
+            }
+
+            // Ενημέρωση όλων των θέσεων
+            currentSong.textContent = currentTrack;
+            currentArtist.textContent = currentArtist;
+            heroSong.textContent = currentTrack;
+            heroArtist.textContent = currentArtist;
+
+        } catch (err) {
+            currentSong.textContent = 'Dream Radio';
+            currentArtist.textContent = 'Ζωντανή Μετάδοση';
+            heroSong.textContent = 'Dream Radio';
+            heroArtist.textContent = 'Ζωντανή Μετάδοση';
+        }
+    }
+
+    fetchMetadata();
+    setInterval(fetchMetadata, 8000);
+
+    // Theme toggle + αποθήκευση
+    function applyTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        if (theme === 'light') {
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+    }
+
+    const savedTheme = localStorage.getItem('dreamradio-theme') || 'dark';
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const current = document.body.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        localStorage.setItem('dreamradio-theme', next);
+    });
+
+    // Mobile menu
+    mobileMenuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('nav') && !e.target.closest('#mobile-menu-btn')) {
+            navMenu.classList.remove('active');
+        }
+    });
+
+    // Smooth scroll για όλα τα anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', e => {
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+                navMenu.classList.remove('active');
+            }
+        });
+    });
+
+    // Back to top
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 250) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Αίτηση τραγουδιού - Ενημερωμένο μήνυμα
+    const requestForm = document.getElementById('request-form');
+    requestForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(requestForm).entries());
+        
+        // Αποστολή δεδομένων στο Formspree
+        fetch('https://formspree.io/f/mdakqreq', {
+            method: 'POST',
+            body: new FormData(requestForm),
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(() => {
+            // Φιλικό μήνυμα επιβεβαίωσης
+            alert(
+                `🎉 Ευχαριστούμε, ${data.name || 'φίλε ακροατή'}!\n\n` +
+                `Η αίτησή σου για το τραγούδι "${data.song}" από τον ${data.artist} έχει σταλεί επιτυχώς!\n\n` +
+                `Θα το παίξουμε σύντομα στο air! 🎶`
+            );
+            // Επαναφορά φόρμας
+            requestForm.reset();
+        }).catch(() => {
+            alert('❌ Υπήρξε κάποιο πρόβλημα με την αποστολή της αίτησης. Παρακαλώ δοκιμάστε ξανά αργότερα.');
+        });
+    });
+</script>
 </body>
 </html>
