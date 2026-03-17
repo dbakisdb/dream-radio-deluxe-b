@@ -291,7 +291,8 @@
                     <div class="player-status-pill"><span class="station-dot"></span><span>LIVE STREAM</span></div>
                 </div>
                 <div class="iframe-player-wrapper">
-                    <iframe src="https://sp3.streams.ovh/cp/widgets/player/single/?p=8056" height="110" width="100%" scrolling="no" style="border:none;" title="Dream Radio Web Player"></iframe>
+                    <!-- ✅ UPDATED: New StreamHub Icecast player -->
+                    <iframe src="https://alpha.streamhub.gr/player/simple/58" width="100%" height="120" frameborder="0" allow="autoplay" style="display:block;border:none;"></iframe>
                 </div>
             </div>
         </div>
@@ -335,16 +336,12 @@
 
                 <!-- Emoji Picker Popup -->
                 <div class="picker-popup" id="emoji-picker">
-                    <div class="emoji-grid" id="emoji-grid">
-                        <!-- Filled by JS -->
-                    </div>
+                    <div class="emoji-grid" id="emoji-grid"></div>
                 </div>
 
                 <!-- GIF Picker Popup -->
                 <div class="picker-popup" id="gif-picker">
-                    <div class="gif-grid" id="gif-grid">
-                        <!-- Filled by JS -->
-                    </div>
+                    <div class="gif-grid" id="gif-grid"></div>
                 </div>
             </div>
         </div>
@@ -527,7 +524,7 @@
         console.error("Firebase Error:", e);
     }
 
-    // --- MAIN SITE JS ---
+    // --- METADATA: Updated for Icecast / StreamHub ---
     const currentSong = document.getElementById('current-song');
     const currentArtist = document.getElementById('current-artist');
     const heroSong = document.getElementById('hero-current-song');
@@ -535,10 +532,16 @@
 
     async function fetchMetadata() {
         try {
-            const res = await fetch('https://sp3.streams.ovh/cp/get_info.php?p=8056');
+            // Icecast JSON status endpoint
+            const res = await fetch('https://alpha.streamhub.gr/status-json.xsl');
             const data = await res.json();
-            if (data && data.songtitle) {
-                let fullTitle = data.songtitle.replace(/&#039;/g, "'").replace(/&amp;/g, '&');
+            const source = data && data.icestats && data.icestats.source;
+            // source can be an array or a single object
+            const stream = Array.isArray(source)
+                ? source.find(s => s.listenurl && s.listenurl.includes('dream-radio_8103')) || source[0]
+                : source;
+            if (stream && stream.title) {
+                let fullTitle = stream.title;
                 let parts = fullTitle.split(' - ');
                 let artist = 'Dream Radio', title = fullTitle;
                 if (parts.length >= 2 && parts[0].trim() !== "") {
@@ -555,6 +558,7 @@
     fetchMetadata();
     setInterval(fetchMetadata, 8000);
 
+    // --- NAV, THEME, SCROLL ---
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navMenu = document.getElementById('nav-menu');
     mobileMenuBtn.onclick = () => navMenu.classList.toggle('active');
