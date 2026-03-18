@@ -16,6 +16,7 @@
             --accent: #fbbf24;
             --dark: #020617;
             --light: #f9fafb;
+            --gray: #9ca3af;
             --glass: rgba(15, 23, 42, 0.85);
             --glass-border: rgba(148, 163, 184, 0.2);
         }
@@ -86,6 +87,14 @@
         .submit-btn { width: 100%; padding: 15px; background: var(--primary); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .submit-btn:hover { background: var(--secondary); transform: translateY(-2px); }
 
+        /* Social Section */
+        .social-section { padding: 40px 0; text-align: center; }
+        .social-title { font-size: 20px; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; }
+        .social-text { font-size: 13px; color: var(--gray); margin-bottom: 20px; }
+        .social-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+        .social-link { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gray); border: 1px solid var(--glass-border); background: rgba(15, 23, 42, 0.9); transition: 0.3s; font-size: 18px; text-decoration: none; }
+        .social-link:hover { color: #000; background: var(--primary); border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 0 20px var(--primary); }
+
         /* Mobile */
         @media (max-width: 768px) {
             .play-core { width: 100px; }
@@ -107,6 +116,7 @@
             <nav style="display: flex; gap: 20px; font-size: 14px;">
                 <a href="#chat" style="color: white; text-decoration: none;">CHAT</a>
                 <a href="#request" style="color: white; text-decoration: none;">ΑΙΤΗΣΗ</a>
+                <a href="#social" style="color: white; text-decoration: none;">ΕΠΙΚΟΙΝΩΝΙΑ</a>
             </nav>
         </div>
     </div>
@@ -166,7 +176,21 @@
     </div>
 </section>
 
-<footer style="text-align: center; padding: 40px; opacity: 0.5; font-size: 12px;">
+<!-- SOCIAL SECTION -->
+<section class="social-section" id="social">
+    <div class="container">
+        <h2 class="social-title">ΒΡΕΣ ΜΑΣ</h2>
+        <p class="social-text">Γίνε μέλος της κοινότητας του Dream Radio.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/groups/245646725483069" class="social-link" target="_blank" title="Facebook Group"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61564248503694" class="social-link" target="_blank" title="Facebook Page"><i class="fab fa-facebook"></i></a>
+            <a href="mailto:dreamradiorethimno@gmail.com" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p style="margin-top:20px;font-size:13px;color:var(--gray);">Email: <a href="mailto:dreamradiorethimno@gmail.com" style="color:var(--primary);text-decoration:none;">dreamradiorethimno@gmail.com</a></p>
+    </div>
+</section>
+
+<footer style="text-align: center; padding: 40px; opacity: 0.5; font-size: 12px; border-top: 1px solid var(--glass-border);">
     &copy; 2026 DREAM RADIO RETHYMNO | POWERED BY HYPER-DRIVE
 </footer>
 
